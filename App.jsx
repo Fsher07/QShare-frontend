@@ -8,21 +8,14 @@ import Profile from "./screens/Profile";
 
 const Navigator = () => {
   const Stack = createNativeStackNavigator();
-  const isUserLoggedIn = false;
-  if (!isUserLoggedIn) {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="Register" component={SignUpForm} />
-        <Stack.Screen name="Login" component={Login} />
-      </Stack.Navigator>
-    );
-  } else {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator>
-    );
-  }
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Register" component={SignUpForm} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Profile" component={Profile} />
+    </Stack.Navigator>
+  );
 };
 
 const App = () => {

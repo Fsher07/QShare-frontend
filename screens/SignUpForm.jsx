@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Alert } from "react-native";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Input, Button, Text } from "@rneui/themed";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+
+import styles from "./SignUpFormStyle";
 
 const SignUpForm = () => {
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = yup.object().shape({
@@ -27,10 +31,15 @@ const SignUpForm = () => {
         }
       );
       console.log(response.data);
+      Alert.alert("Success", "Sign up was successful", [{ text: "OK" }], {
+        cancelable: false,
+      });
+      navigation.navigate("Login");
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const formik = useFormik({
@@ -64,20 +73,15 @@ const SignUpForm = () => {
         title={isLoading ? "Loading..." : "Sign Up"}
         onPress={formik.handleSubmit}
       />
+      <Button
+        title={"Login"}
+        onPress={() => {
+          navigation.navigate("Login");
+        }}
+      />
       {isLoading && <ActivityIndicator style={styles.spinner} size="large" />}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  spinner: {
-    marginTop: 10,
-  },
-});
 
 export default SignUpForm;
